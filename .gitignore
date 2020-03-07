@@ -1,0 +1,9 @@
+*
+
+!app/
+!app/*
+!app.db
+!application.py
+!migrations/
+!migrations/*
+!config.py
