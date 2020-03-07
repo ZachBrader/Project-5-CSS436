@@ -21,6 +21,8 @@ login.login_view = "login"
 
 from app.blueprints.auth import auth
 from app.blueprints.home import home
+from app.blueprints.errors import error
 
+app.register_blueprint(error)
 app.register_blueprint(home)
 app.register_blueprint(auth)
