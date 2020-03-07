@@ -1,0 +1,18 @@
+<h3>
+    <a href="{{ url_for('home.user', username=team.username) }}">
+        {{ team.username }}
+    </a>
+</h3>
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+            <tr>
+                {% for pokemon in team.pokemon %}
+                <th>{{ pokemon }}</th>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<hr>
