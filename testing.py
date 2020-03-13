@@ -27,14 +27,24 @@ class Pokemon:
 
 
 pokemon1 = Pokemon(1)
+pokemon1.level = 45
 pokemon2 = Pokemon(2)
+pokemon2.shiny = "Yes"
+pokemon3 = Pokemon(3)
+pokemon4 = Pokemon(4)
+pokemon5 = Pokemon(5)
+pokemon6 = Pokemon(6)
 
 
 vars = {
 	"UserName" : "user1",
 	"TeamName" : "team1",
 	"pokemon_1" : pokemon1.__dict__,
-	"pokemon_2" : pokemon2.__dict__
+	"pokemon_2" : pokemon2.__dict__,
+    "pokemon_3" : pokemon3.__dict__,
+    "pokemon_4" : pokemon4.__dict__,
+    "pokemon_5" : pokemon5.__dict__,
+    "pokemon_6" : pokemon6.__dict__
 }
 
 to_json = json.dumps(vars)
