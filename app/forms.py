@@ -28,3 +28,14 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+
+class PokemonTeamBuilder(FlaskForm):
+    teamname = StringField('Team Name', validators=[DataRequired()])
+    pokemon1 = StringField('Pokemon Name', validators=[])
+    pokemon2 = StringField('Pokemon Name', validators=[])
+    pokemon3 = StringField('Pokemon Name', validators=[])
+    pokemon4 = StringField('Pokemon Name', validators=[])
+    pokemon5 = StringField('Pokemon Name', validators=[])
+    pokemon6 = StringField('Pokemon Name', validators=[])
+    submit = SubmitField('Sign In')

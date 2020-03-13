@@ -27,7 +27,9 @@ bootstrap = Bootstrap(app)
 from app.blueprints.auth import auth
 from app.blueprints.home import home
 from app.blueprints.errors import error
+from app.blueprints.pokemon import poke
 
+app.register_blueprint(poke)
 app.register_blueprint(error)
 app.register_blueprint(home)
 app.register_blueprint(auth)
