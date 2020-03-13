@@ -1,5 +1,6 @@
 *
 
+!uploaddb
 !app/
 !app/*
 !app.db

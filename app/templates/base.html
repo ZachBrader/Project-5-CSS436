@@ -21,6 +21,7 @@
                     <li><a href="{{ url_for('home.index') }}">Home</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url_for('poke.query') }}">Query</a></li>
                     {% if current_user.is_anonymous %}
                     <li><a href="{{ url_for('auth.login') }}">Login</a></li>
                     <li><a href="{{ url_for('auth.register') }}">Register</a></li>
