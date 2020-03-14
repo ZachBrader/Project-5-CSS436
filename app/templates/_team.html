@@ -1,15 +1,42 @@
 <h3>
-    <a href="{{ url_for('home.user', username=team.username) }}">
-        {{ team.username }}
+    <a href="{{ url_for('home.user', username=team.UserName) }}">
+        {{ team.UserName }}
     </a>
 </h3>
+<h4>
+    {{ team.TeamName }}
+</h4>
 <div class="table-responsive">
     <table class="table">
         <tbody>
             <tr>
-                {% for pokemon in team.pokemon %}
-                <th>{{ pokemon }}</th>
-                {% endfor %}
+                {% if team.poke1 %}
+                <th>
+                    {{ team.poke1.name }}
+                </th>
+                {% else %}
+                <th>---</th>
+                {% endif %}
+
+                {% if team.poke2 %}
+                <th>{{ team.poke2.name }}</th>
+                {% endif %}
+
+                {% if team.poke3 %}
+                <th>{{ team.poke3.name }}</th>
+                {% endif %}
+
+                {% if team.poke4 %}
+                <th>{{ team.poke4.name }}</th>
+                {% endif %}
+
+                {% if team.poke5 %}
+                <th>{{ team.poke5.name }}</th>
+                {% endif %}
+
+                {% if team.poke6 %}
+                <th>{{ team.poke6.name }}</th>
+                {% endif %}
             </tr>
         </tbody>
     </table>

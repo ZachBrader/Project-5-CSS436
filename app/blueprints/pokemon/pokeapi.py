@@ -1,4 +1,10 @@
-# Stolen from Thom's code. I'll let you guys plug this in how you want
+import os
+from decimal import Decimal
+import json
+
+from config import TABLE
+from boto3.dynamodb.conditions import Key, Attr
+
 class Pokemon():
     def __init__(self, pokemon_id=1):
         self.pokemon_id = pokemon_id
@@ -45,15 +51,40 @@ def upload_team(poketeam):
     :param poketeam: A dictionary object with a teamname, and 0-6 pokemon
     :return:
     """
-    print(poketeam)
+    print(TABLE.put_item(Item=poketeam))
     return True
 
 
-def query_team(user_query):
+def query_team(username=None, teamname=None):
     """
     Query our DynamoDb for this parameter
-    :param user_query:
+    :param username: Query parameter to check all usernames for
+    :param teamname: Query parameter to check all teamnames for
     :return:
     """
-    print(user_query)
-    return "Implement something cool here!"
+    totalItems = []
+    if (username is not None and username != "") and (teamname is not None and teamname != ""):
+        response = TABLE.scan(
+            FilterExpression=Attr('UserName').contains(username) & Attr('TeamName').contains(teamname))
+        totalItems += response['Items']
+    elif (username is not None and username != "") and (teamname is None or teamname == ""):
+        response = TABLE.scan(FilterExpression=Attr('UserName').contains(username))
+        totalItems += response['Items']
+    elif (username is None or username == "") and (teamname is not None and teamname != ""):
+        response = TABLE.scan(FilterExpression=Attr('TeamName').contains(teamname))
+        totalItems += response['Items']
+    else:
+        response = TABLE.scan()
+        totalItems += response['Items']
+    return totalItems
+
+
+# Helper class to convert a DynamoDB item to JSON.
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, Decimal):
+            if abs(o) % 1 > 0:
+                return float(o)
+            else:
+                return int(o)
+        return super(DecimalEncoder, self).default(o)

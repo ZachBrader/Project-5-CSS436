@@ -10,6 +10,8 @@
     </div>
 
     <p>
-        {{ results }}
+        {% for team in results %}
+            {% include '_team.html' %}
+        {% endfor %}
     </p>
 {% endblock %}

@@ -1,5 +1,6 @@
 from flask import render_template, url_for, redirect
 from flask_login import current_user, login_required
+from datetime import datetime
 
 from app.blueprints.pokemon import poke
 from app.blueprints.pokemon.pokeapi import Pokemon, create_pokemon, upload_team, query_team
@@ -14,6 +15,7 @@ def query():
             results = query_team(form.user_query.data)
         else:
             results = ""
+        print(results)
         return render_template("pokemon/queryteams.html", form=form, results=results)
     return render_template("pokemon/queryteams.html", form=form, results="")
 
@@ -23,7 +25,7 @@ def query():
 def createteam():
     form = PokemonTeamBuilder()
     if form.validate_on_submit():
-        poketeam = {"teamname": form.teamname.data}
+        poketeam = {"UserName": current_user.username, "TeamName": form.teamname.data, "TimeStamp": str(datetime.now())}
         poke_count = 1
         # Scan the data in the forms and place inside a dictionary
         if form.pokemon1.data != "":

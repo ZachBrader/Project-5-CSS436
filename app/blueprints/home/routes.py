@@ -3,23 +3,12 @@ from flask import render_template
 
 from app.blueprints.home import home
 from app.models import User
+from app.blueprints.pokemon.pokeapi import query_team
 
 @home.route('/')
 @home.route('/index')
 def index():
-    pokeList = [{
-            'username': 'Zach',
-            'pokemon': ['Pichu', 'Pichu', 'Pichu']
-        },
-        {
-            'username': 'Andrei',
-            'pokemon': ['Magikarp']
-        },
-        {
-            'username': 'Thom',
-            'pokemon': ['Charizard']
-        }
-    ]
+    pokeList = query_team()
     return render_template("home/index.html", pokeList=pokeList)
 
 
@@ -27,17 +16,5 @@ def index():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    pokeList = [{
-        'username': 'Zach',
-        'pokemon': ['Pichu', 'Pichu', 'Pichu']
-    },
-        {
-            'username': 'Andrei',
-            'pokemon': ['Magikarp']
-        },
-        {
-            'username': 'Thom',
-            'pokemon': ['Charizard']
-        }
-    ]
+    pokeList = query_team(username=username)
     return render_template('home/user.html', user=user, pokeList=pokeList)
