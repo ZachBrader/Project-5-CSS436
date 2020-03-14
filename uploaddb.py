@@ -34,3 +34,39 @@ def upload(UserName, TeamName, vars):
 def query(UserName, TeamName):
 	response = table.scan(FilterExpression=Attr('UserName').contains(UserName) & Attr('TeamName').contains(TeamName))
 	return (json.dumps(response['Items'], cls=DecimalEncoder))
+
+##################################################################################################
+import requests
+
+def GetImage(pokemon_id):
+    if isinstance(pokemon_id, int):
+        return FindByID(pokemon_id)
+    else:
+        attempt_url = 'https://pokeapi.co/api/v2/pokemon/' + str(pokemon_id).lower() + '/'
+        response = requests.get(attempt_url)
+        if response.ok:
+            print('Pokemon found! ' + attempt_url)
+            obj = json.loads(response.content)
+            print(obj['id'])
+            return FindByID(obj['id'])
+        else:
+            print('Pokemon not found')
+
+def FindByID(pokemon_id):
+    if pokemon_id < 10:
+        str_for_input = '00' + str(pokemon_id)
+    elif pokemon_id < 100:
+        str_for_input = '0' + str(pokemon_id)
+    else:
+        str_for_input = str(pokemon_id)
+
+    image_url = 'https://pokemonimagescss436.s3-us-west-2.amazonaws.com/' + str_for_input + '.png'
+    response = requests.get(image_url)
+    if response.ok:
+        print('Image found! ' + image_url)
+    else:
+        print('Image not found')
+    print(response.status_code)
+    return image_url
+
+
