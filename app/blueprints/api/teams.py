@@ -1,13 +1,15 @@
+from flask import jsonify
 from app.blueprints.api import api
+from app.models import User
 
-
-@api.route('/user', methods=['POST'])
+@api.route('/users', methods=['POST'])
 def create_user():
+    #data = request.get_json()
     return {}
 
-@api.route('/users/<id>', methods=['GET'])
+@api.route('/users/<int:id>', methods=['GET'])
 def get_user(id):
-    return {}
+    return jsonify(User.query.get_or_404(id).to_dict())
 
 
 @api.route('/users', methods=['GET'])
