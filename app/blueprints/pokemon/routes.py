@@ -45,8 +45,8 @@ def addnewpokemon(username, teamname):
         if form.pokemon.data != "":
             poke, exists = create_pokemon(form.pokemon.data, form.level.data, form.item.data)
             if exists:
-                results["poke" + str(results['count'])] = poke
-                results['count'] += 1
+                results['pokemon'].append(poke)
+                results['count'] = len(results['pokemon'])
             else:
                 flash(form.pokemon.data + " is not a valid pokemon! This data was not recorded.")
                 redirect(url_for('poke.createteam', username=username, teamname=teamname))
@@ -173,8 +173,6 @@ def editteam(teamname, username):
                 flash(form.pokemon6.data + " is not a valid pokemon! This data was not recorded.")
         poketeam['count'] = len(pokemon)
         poketeam['pokemon'] = pokemon
-        upload_team(poketeam)
-
         upload_team(poketeam)
         return redirect(url_for("home.index"))
     elif request.method == 'GET':

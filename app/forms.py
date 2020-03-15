@@ -76,7 +76,7 @@ class PokemonTeamSearch(FlaskForm):
 
 
 class PokemonNew(FlaskForm):
-    pokemon1 = SelectField('Pokemon', choices=mychoices, validators=[DataRequired()])
+    pokemon = SelectField('Pokemon', choices=mychoices, validators=[DataRequired()])
     level = IntegerField("Pokemon Level", default=1, validators=[])
     item = SelectField('Pokemon Held Item', choices=mychoicesHeldItem)
     submit = SubmitField('Add To Team')
