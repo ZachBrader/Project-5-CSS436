@@ -1,6 +1,10 @@
-import uploaddb
 import json
+from app.blueprints.pokemon import pokeapi
 
+moveList = pokeapi.GetPokemonMove('bulbasaur')
+#print(moveList)
+newList = pokeapi.CreatePokemonMoveSelectList(moveList)
+print(newList)
 # Testing Area
 class Pokemon:
 	def __init__(self, pokemon_id = 1):
@@ -47,12 +51,12 @@ vars = {
     "pokemon_6" : pokemon6.__dict__
 }
 
-to_json = json.dumps(vars)
+#to_json = json.dumps(vars)
 
-uploaddb.upload("user1","team1",vars)
+#uploaddb.upload("user1","team1",vars)
 
 print("###################################################")
 #print(to_json)
 
-queryData = uploaddb.query("user1","team1")
-print(queryData)
+#queryData = uploaddb.query("user1","team1")
+#print(queryData)

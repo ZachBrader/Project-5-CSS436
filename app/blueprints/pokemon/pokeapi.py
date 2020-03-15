@@ -94,6 +94,21 @@ class DecimalEncoder(json.JSONEncoder):
                 return int(o)
         return super(DecimalEncoder, self).default(o)
 
+# Get a list of pokemon move from given pokemon name
+def GetPokemonMove(pokemon_name):
+    content = GetObjectByName(pokemon_name)[1]
+    data = json.loads(content)
+    return data['moves']
+
+# Create a given pokemon move list for wtform select
+def CreatePokemonMoveSelectList(moveList):
+    pokemonMove_list = []
+    temp = ('None', 'None')
+    pokemonMove_list.append(temp)
+    for move in moveList:
+        tup = (move.strip(), move.strip())
+        pokemonMove_list.append(tup)
+    return pokemonMove_list
 
 def GetObjectByName(pokemon_id):
     try:
@@ -174,7 +189,7 @@ def CreateJsonObj(obj):
         "hidden_abilities": hidden_abilities,
         "moves": list_moves
     }
-    return json_obj
+    return json.dumps(json_obj)
 
 
 def FindByID(pokemon_id):
