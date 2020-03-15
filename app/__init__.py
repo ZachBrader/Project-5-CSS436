@@ -20,7 +20,7 @@ migrate = Migrate(app, db)
 app.config.from_object(Config)
 
 login = LoginManager(app)
-login.login_view = "login"
+
 
 bootstrap = Bootstrap(app)
 
@@ -35,6 +35,8 @@ app.register_blueprint(poke)
 app.register_blueprint(error)
 app.register_blueprint(home)
 app.register_blueprint(auth)
+
+login.login_view = "auth.login"
 
 if not app.debug:
     if not os.path.exists('logs'):
