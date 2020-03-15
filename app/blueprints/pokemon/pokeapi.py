@@ -64,6 +64,14 @@ def query_team(username=None, teamname=None):
         totalItems += response['Items']
     return totalItems
 
+def delete_team(username, teamname):
+    try:
+        TABLE.delete_item(Key={'UserName': username, 'TeamName': teamname})
+        return True
+    except:
+        print('Unable to delete ' + username + '\'s team ' + teamname)
+        return False
+
 
 def validate_teamname(username, teamname):
     response = TABLE.scan(

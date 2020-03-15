@@ -71,7 +71,8 @@ class PokemonTeamBuilder(FlaskForm):
     
 
 class PokemonTeamSearch(FlaskForm):
-    user_query = StringField("Search Teams", validators=[])
+    username_query = StringField("Search Users", validators=[])
+    teamname_query = StringField("Search Teams", validators=[])
     submit = SubmitField('Search')
 
 

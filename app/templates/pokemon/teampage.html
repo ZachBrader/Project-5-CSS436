@@ -41,6 +41,7 @@
 <a href="{{ url_for('poke.addnewpokemon', username=team.UserName, teamname=team.TeamName)}}"><button type="button" class="btn btn-primary">Add New Pokemon</button></a>
 {% endif %}
 <a href="{{ url_for('poke.editteam', username=team.UserName, teamname=team.TeamName)}}"><button type="button" class="btn btn-primary">Edit Team</button></a>
+<a href="{{ url_for('poke.deleteteam', username=team.UserName, teamname=team.TeamName)}}"><button type="button" class="btn btn-danger">Delete Team</button></a>
 
 <hr>
 {% endfor %}

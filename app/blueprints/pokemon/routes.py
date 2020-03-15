@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from datetime import datetime
 
 from app.blueprints.pokemon import poke
-from app.blueprints.pokemon.pokeapi import create_pokemon, upload_team, query_team, validate_teamname
+from app.blueprints.pokemon.pokeapi import create_pokemon, upload_team, query_team, validate_teamname, delete_team
 from app.forms import PokemonTeamBuilder, PokemonTeamSearch, PokemonNew, EditTeam
 
 
@@ -11,10 +11,16 @@ from app.forms import PokemonTeamBuilder, PokemonTeamSearch, PokemonNew, EditTea
 def query():
     form = PokemonTeamSearch()
     if form.validate_on_submit():
-        if form.user_query.data != "":
-            results = query_team(form.user_query.data)
+        username_query = form.username_query.data
+        teamname_query = form.teamname_query.data
+        if username_query != "" and teamname_query != "":
+            results = query_team(username=username_query, teamname=teamname_query)
+        elif username_query != "" and teamname_query == "":
+            results = query_team(username=username_query)
+        elif username_query == "" and teamname_query != "":
+            results = query_team(teamname=teamname_query)
         else:
-            results = ""
+            results = query_team()
         print(results)
         return render_template("pokemon/queryteams.html", form=form, results=results)
     return render_template("pokemon/queryteams.html", form=form, results="")
@@ -223,3 +229,18 @@ def deletepokemon(teamname, username, slot):
     else:
         flash("You do not have permissions to edit this team")
     return redirect(url_for('poke.teampage', username=username, teamname=teamname))
+
+
+@poke.route("/user/<username>/team/<teamname>/deleteteam", methods=["GET", "POST"])
+@login_required
+def deleteteam(teamname, username):
+    if current_user.username == username:
+        results = query_team(username, teamname)
+        if len(results) != 0:
+            ret = delete_team(username, teamname)
+            if ret:
+                flash(teamname + " deleted successfully!")
+            else:
+                flash(teamname + " was unable to be deleted")
+                return redirect(url_for('poke.teampage', username=username, teamname=teamname))
+    return redirect(url_for('home.user', username=username))
