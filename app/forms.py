@@ -4,6 +4,10 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 from app import pokemonList, heldItemList
 
+
+mychoices = pokemonList.pokemon_list
+mychoicesHeldItem = heldItemList.heldItem_list
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -31,8 +35,6 @@ class RegistrationForm(FlaskForm):
 
 
 class PokemonTeamBuilder(FlaskForm):
-    mychoices = pokemonList.pokemon_list
-    mychoicesHeldItem = heldItemList.heldItem_list
     teamname = StringField('Team Name', validators=[DataRequired()])
     
     #pokemon1 = StringField('Pokemon #1 Name', default="Magikarp", validators=[])
@@ -72,12 +74,37 @@ class PokemonTeamSearch(FlaskForm):
     user_query = StringField("Search Teams", validators=[])
     submit = SubmitField('Search')
 
+
 class PokemonNew(FlaskForm):
-    pokemon = StringField('Pokemon #1 Name', default="Magikarp", validators=[DataRequired()])
-    level = IntegerField("Pokemon #1 Level", default=1, validators=[])
-    item = StringField('Item', default="", validators=[])
-    move1 = StringField('First Move', default="", validators=[])
-    move2 = StringField('First Move', default="", validators=[])
-    move3 = StringField('First Move', default="", validators=[])
-    move4 = StringField('First Move', default="", validators=[])
+    pokemon1 = SelectField('Pokemon', choices=mychoices, validators=[DataRequired()])
+    level = IntegerField("Pokemon Level", default=1, validators=[])
+    item = SelectField('Pokemon Held Item', choices=mychoicesHeldItem)
     submit = SubmitField('Add To Team')
+
+
+class EditTeam(FlaskForm):
+    pokemon1 = SelectField('Pokemon #1', choices=mychoices)
+    poke1level = IntegerField("Pokemon #1 Level", default=1, validators=[])
+    pokemonHeldItem1 = SelectField('Pokemon #1 Held Item', choices=mychoicesHeldItem)
+
+    pokemon2 = SelectField('Pokemon #2', choices=mychoices)
+    poke2level = IntegerField("Pokemon #2 Level", default=1, validators=[])
+    pokemonHeldItem2 = SelectField('Pokemon #2 Held Item', choices=mychoicesHeldItem)
+
+    pokemon3 = SelectField('Pokemon #3', choices=mychoices)
+    poke3level = IntegerField("Pokemon #3 Level", default=1, validators=[])
+    pokemonHeldItem3 = SelectField('Pokemon #3 Held Item', choices=mychoicesHeldItem)
+
+    pokemon4 = SelectField('Pokemon #4', choices=mychoices)
+    poke4level = IntegerField("Pokemon #4 Level", default=1, validators=[])
+    pokemonHeldItem4 = SelectField('Pokemon #4 Held Item', choices=mychoicesHeldItem)
+
+    pokemon5 = SelectField('Pokemon #5', choices=mychoices)
+    poke5level = IntegerField("Pokemon #5 Level", default=1, validators=[])
+    pokemonHeldItem5 = SelectField('Pokemon #5 Held Item', choices=mychoicesHeldItem)
+
+    pokemon6 = SelectField('Pokemon #6', choices=mychoices)
+    poke6level = IntegerField("Pokemon #6 Level", default=1, validators=[])
+    pokemonHeldItem6 = SelectField('Pokemon #6 Held Item', choices=mychoicesHeldItem)
+
+    submit = SubmitField('Update Team')
