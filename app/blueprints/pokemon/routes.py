@@ -209,3 +209,19 @@ def editteam(teamname, username):
         form.pokemon6.data = results['poke6']['name']
 
     return render_template('pokemon/editteam.html', form=form)
+
+
+@poke.route("/user/<username>/team/<teamname>/deletepokemon/<int:slot>", methods=["GET", "POST"])
+@login_required
+def deletepokemon(teamname, username, slot):
+    if current_user.username == username:
+        if slot > 0 and slot < 7:
+            results = query_team(username, teamname)
+            if len(results) != 0:
+                results = results[0]
+                poke_num = "poke" + str(slot)
+                if poke_num in results:
+                    ret =results.popitem(poke_num)
+                    flash("Removed " + ret + " from " + teamname)
+                    upload_team(results)
+    return redirect(url_for('poke.teampage', username=username, teamname=teamname))
