@@ -1,3 +1,10 @@
+<style>
+    img {
+        width: 80px;
+        height: 80px;
+    }
+</style>
+
 <h3>
     <a href="{{ url_for('home.user', username=team.UserName) }}">
         {{ team.UserName }}
@@ -13,29 +20,45 @@
                 {% if team.poke1 %}
                 <th>
                     {{ team.poke1.name }}
+                    <img src="{{ team.poke1.picture}}">
                 </th>
                 {% else %}
                 <th>---</th>
                 {% endif %}
 
                 {% if team.poke2 %}
-                <th>{{ team.poke2.name }}</th>
+                <th>
+                    {{ team.poke2.name }}
+                    <img src="{{ team.poke2.picture}}">
+                </th>
                 {% endif %}
 
                 {% if team.poke3 %}
-                <th>{{ team.poke3.name }}</th>
+                <th>
+                    {{ team.poke3.name }}
+                    <img src="{{ team.poke3.picture}}">
+                </th>
                 {% endif %}
 
                 {% if team.poke4 %}
-                <th>{{ team.poke4.name }}</th>
+                <th>
+                    {{ team.poke4.name }}
+                    <img src="{{ team.poke4.picture}}">
+                </th>
                 {% endif %}
 
                 {% if team.poke5 %}
-                <th>{{ team.poke5.name }}</th>
+                <th>
+                    {{ team.poke5.name }}
+                    <img src="{{ team.poke5.picture}}">
+                </th>
                 {% endif %}
 
                 {% if team.poke6 %}
-                <th>{{ team.poke6.name }}</th>
+                <th>
+                    {{ team.poke6.name }}
+                    <img src="{{ team.poke6.picture}}">
+                </th>
                 {% endif %}
             </tr>
         </tbody>

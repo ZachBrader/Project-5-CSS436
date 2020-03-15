@@ -28,7 +28,9 @@ from app.blueprints.auth import auth
 from app.blueprints.home import home
 from app.blueprints.errors import error
 from app.blueprints.pokemon import poke
+from app.blueprints.api import api
 
+app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(poke)
 app.register_blueprint(error)
 app.register_blueprint(home)
