@@ -30,13 +30,15 @@
             <th scope="col">Item</th>
         </thead>
         <tbody>
+            {% set count = 0 %}
             {% for poke in team.pokemon %}
                 {% include 'pokemon/_pokemon.html' %}
+                {% set count = count + 1%}
             {% endfor %}
         </tbody>
     </table>
 </div>
-{% if team.count < 7 %}
+{% if team.count < 6 %}
 <a href="{{ url_for('poke.addnewpokemon', username=team.UserName, teamname=team.TeamName)}}"><button type="button" class="btn btn-primary">Add New Pokemon</button></a>
 {% endif %}
 <a href="{{ url_for('poke.editteam', username=team.UserName, teamname=team.TeamName)}}"><button type="button" class="btn btn-primary">Edit Team</button></a>

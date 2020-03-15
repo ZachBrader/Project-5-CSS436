@@ -5,4 +5,5 @@
     <td>{{ poke.level }}</td>
     <td>{{ poke.hidden_abilities[0] }}</td>
     <td>{{ poke.item }}</td>
+    <td><a href="{{ url_for('poke.deletepokemon', username=team.UserName, teamname=team.TeamName, slot=count)}}"><button type="button" class="btn btn-primary">Remove</button></a></td>
 </tr>
