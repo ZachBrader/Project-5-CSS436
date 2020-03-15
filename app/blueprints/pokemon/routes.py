@@ -21,7 +21,6 @@ def query():
             results = query_team(teamname=teamname_query)
         else:
             results = query_team()
-        print(results)
         return render_template("pokemon/queryteams.html", form=form, results=results)
     return render_template("pokemon/queryteams.html", form=form, results="")
 
@@ -57,7 +56,7 @@ def addnewpokemon(username, teamname):
                 flash(form.pokemon.data + " is not a valid pokemon! This data was not recorded.")
                 redirect(url_for('poke.createteam', username=username, teamname=teamname))
             upload_team(results)
-            return redirect(url_for("home.index"))
+            return redirect(url_for('poke.teampage', username=username, teamname=teamname))
     return render_template('pokemon/addpokemon.html', form=form)
 
 
@@ -114,7 +113,7 @@ def createteam():
             poketeam['count'] = len(pokemon)
             poketeam['pokemon'] = pokemon
             upload_team(poketeam)
-            return redirect(url_for("home.index"))
+            return redirect(url_for('poke.teampage', username=current_user.username, teamname=form.teamname.data))
         else:
             flash("You already have a team called " + form.teamname.data + ". Please enter in a unique name!")
             return redirect(url_for('poke.createteam'))
