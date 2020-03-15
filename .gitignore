@@ -2,7 +2,18 @@
 logs/*
 venv
 venv/*
+*.pyc
+__pycache__/application.cpython-37.pyc
+__pycache__/application.cpython-38.pyc
+__pycache__/config.cpython-38.pyc
+app/__pycache__/config.cpython-37.pyc
+app/__pycache__/heldItemList.cpython-38.pyc
+app/__pycache__/pokemonList.cpython-38.pyc
+venvpart2/
+
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
