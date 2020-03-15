@@ -11,7 +11,7 @@
     </a>
 </h3>
 <h4>
-    {{ team.TeamName }}
+    <a href="{{ url_for('poke.teampage', username=team.UserName, teamname=team.TeamName)}}">{{ team.TeamName }}</a>
 </h4>
 <div class="table-responsive">
     <table class="table">

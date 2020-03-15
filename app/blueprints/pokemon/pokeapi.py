@@ -63,6 +63,17 @@ def query_team(username=None, teamname=None):
     return totalItems
 
 
+def validate_teamname(username, teamname):
+    response = TABLE.scan(
+        FilterExpression=Attr('UserName').eq(username) & Attr('TeamName').eq(teamname))
+    print(response)
+    if len(response['Items']) == 0:
+        return True
+    else:
+        print("Team name: " + teamname + " already exists!")
+        return False
+
+
 # Helper class to convert a DynamoDB item to JSON.
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
@@ -75,30 +86,39 @@ class DecimalEncoder(json.JSONEncoder):
 
 
 def GetObjectByName(pokemon_id):
-    if isinstance(pokemon_id, int):
-        return GetObjectByID(pokemon_id)
-    else:
-        attempt_url = 'https://pokeapi.co/api/v2/pokemon/' + str(pokemon_id).lower() + '/'
-        response = requests.get(attempt_url)
-        if response.ok:
-            obj = json.loads(response.content)
-            return True, CreateJsonObj(obj)
+    try:
+        if isinstance(pokemon_id, int):
+            return GetObjectByID(pokemon_id)
         else:
-            print('Pokemon not found')
-            return False
+            attempt_url = 'https://pokeapi.co/api/v2/pokemon/' + str(pokemon_id).lower() + '/'
+            response = requests.get(attempt_url)
+            print(response)
+            if response.ok and response.status_code == 200:
+                obj = json.loads(response.content)
+                return True, CreateJsonObj(obj)
+            else:
+                print('Pokemon not found')
+                return False, {}
+    except Exception as e:
+        print("Pokemon not found, received: ", e)
+        return False, {}
 
 
 def GetObjectByID(pokemon_id):
-    if not isinstance(pokemon_id, int):
-        GetObjectByName(pokemon_id)
+    try:
+        if not isinstance(pokemon_id, int):
+            GetObjectByName(pokemon_id)
 
-    request_url = 'https://pokeapi.co/api/v2/pokemon/' + str(pokemon_id) + '/'
-    response = requests.get(request_url)
-    if response.ok:
-        obj = json.loads(response.content)
-        return CreateJsonObj(obj)
-    else:
-        print('Image not found')
+        request_url = 'https://pokeapi.co/api/v2/pokemon/' + str(pokemon_id) + '/'
+        response = requests.get(request_url)
+        if response.ok:
+            obj = json.loads(response.content)
+            return CreateJsonObj(obj)
+        else:
+            print('Image not found')
+            return {}
+    except Exception as e:
+        print("Image not found, received: ", e)
         return {}
 
 

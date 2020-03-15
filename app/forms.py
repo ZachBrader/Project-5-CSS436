@@ -50,3 +50,14 @@ class PokemonTeamBuilder(FlaskForm):
 class PokemonTeamSearch(FlaskForm):
     user_query = StringField("Search Teams", validators=[])
     submit = SubmitField('Search')
+
+
+class PokemonNew(FlaskForm):
+    pokemon = StringField('Pokemon #1 Name', default="Magikarp", validators=[DataRequired()])
+    level = IntegerField("Pokemon #1 Level", default=1, validators=[])
+    item = StringField('Item', default="", validators=[])
+    move1 = StringField('First Move', default="", validators=[])
+    move2 = StringField('First Move', default="", validators=[])
+    move3 = StringField('First Move', default="", validators=[])
+    move4 = StringField('First Move', default="", validators=[])
+    submit = SubmitField('Add To Team')
