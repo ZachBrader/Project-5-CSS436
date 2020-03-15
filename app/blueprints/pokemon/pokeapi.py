@@ -6,7 +6,7 @@ from config import TABLE
 from boto3.dynamodb.conditions import Key, Attr
 
 
-def create_pokemon(name, level):
+def create_pokemon(name, level, item=""):
     """
     Formats pokemon details into a dictionary
 
@@ -23,6 +23,8 @@ def create_pokemon(name, level):
         poke['picture'] = FindByID(poke['id'])
         if level != "":
             poke['level'] = level
+        if item != "":
+            poke['item'] = item
         return poke, True
     else:
         return poke, False

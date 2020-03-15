@@ -60,12 +60,11 @@ def createteam():
     form = PokemonTeamBuilder()
     if form.validate_on_submit():
         if validate_teamname(current_user.username, form.teamname.data):
-
             poketeam = {"UserName": current_user.username, "TeamName": form.teamname.data, "TimeStamp": str(datetime.now())}
             poke_count = 1
             # Scan the data in the forms and place inside a dictionary
             if form.pokemon1.data != "":
-                poke, exists = create_pokemon(form.pokemon1.data, form.poke1level.data)
+                poke, exists = create_pokemon(form.pokemon1.data, form.poke1level.data, form.pokemonHeldItem1.data)
                 if exists:
                     poketeam["poke" + str(poke_count)] = poke
                     poke_count += 1
@@ -73,7 +72,7 @@ def createteam():
                     flash(form.pokemon1.data + " is not a valid pokemon! This data was not recorded.")
 
             if form.pokemon2.data != "":
-                poke, exists = create_pokemon(form.pokemon2.data, form.poke2level.data)
+                poke, exists = create_pokemon(form.pokemon2.data, form.poke2level.data, form.pokemonHeldItem2.data)
                 if exists:
                     poketeam["poke" + str(poke_count)] = poke
                     poke_count += 1
@@ -81,7 +80,7 @@ def createteam():
                     flash(form.pokemon2.data + " is not a valid pokemon! This data was not recorded.")
 
             if form.pokemon3.data != "":
-                poke, exists = create_pokemon(form.pokemon3.data, form.poke3level.data)
+                poke, exists = create_pokemon(form.pokemon3.data, form.poke3level.data, form.pokemonHeldItem3.data)
                 if exists:
                     poketeam["poke" + str(poke_count)] = poke
                     poke_count += 1
@@ -89,7 +88,7 @@ def createteam():
                     flash(form.pokemon3.data + " is not a valid pokemon! This data was not recorded.")
 
             if form.pokemon4.data != "":
-                poke, exists = create_pokemon(form.pokemon4.data, form.poke4level.data)
+                poke, exists = create_pokemon(form.pokemon4.data, form.poke4level.data, form.pokemonHeldItem4.data)
                 if exists:
                     poketeam["poke" + str(poke_count)] = poke
                     poke_count += 1
@@ -97,7 +96,7 @@ def createteam():
                     flash(form.pokemon4.data + " is not a valid pokemon! This data was not recorded.")
 
             if form.pokemon5.data != "":
-                poke, exists = create_pokemon(form.pokemon5.data, form.poke5level.data)
+                poke, exists = create_pokemon(form.pokemon5.data, form.poke5level.data, form.pokemonHeldItem5.data)
                 if exists:
                     poketeam["poke" + str(poke_count)] = poke
                     poke_count += 1
@@ -105,7 +104,7 @@ def createteam():
                     flash(form.pokemon5.data + " is not a valid pokemon! This data was not recorded.")
 
             if form.pokemon6.data != "":
-                poke, exists = create_pokemon(form.pokemon6.data, form.poke6level.data)
+                poke, exists = create_pokemon(form.pokemon6.data, form.poke6level.data, form.pokemonHeldItem6.data)
                 if exists:
                     poketeam["poke" + str(poke_count)] = poke
                     poke_count += 1
