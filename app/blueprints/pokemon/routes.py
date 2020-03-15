@@ -26,7 +26,8 @@ def teampage(username, teamname):
     if len(results) == 1:
         return render_template("pokemon/teampage.html", results=results)
     else:
-        redirect("error/404.html")
+        flash("Unable to find " + teamname + " by " + username + ".")
+        return redirect(url_for("home.index"))
 
 
 @poke.route("/user/<username>/team/<teamname>/addpokemon", methods=['GET', 'POST'])
@@ -62,11 +63,12 @@ def createteam():
         if validate_teamname(current_user.username, form.teamname.data):
             poketeam = {"UserName": current_user.username, "TeamName": form.teamname.data, "TimeStamp": str(datetime.now())}
             poke_count = 1
+            pokemon = []
             # Scan the data in the forms and place inside a dictionary
             if form.pokemon1.data != "":
                 poke, exists = create_pokemon(form.pokemon1.data, form.poke1level.data, form.pokemonHeldItem1.data)
                 if exists:
-                    poketeam["poke" + str(poke_count)] = poke
+                    pokemon.append(poke)
                     poke_count += 1
                 else:
                     flash(form.pokemon1.data + " is not a valid pokemon! This data was not recorded.")
@@ -74,7 +76,7 @@ def createteam():
             if form.pokemon2.data != "":
                 poke, exists = create_pokemon(form.pokemon2.data, form.poke2level.data, form.pokemonHeldItem2.data)
                 if exists:
-                    poketeam["poke" + str(poke_count)] = poke
+                    pokemon.append(poke)
                     poke_count += 1
                 else:
                     flash(form.pokemon2.data + " is not a valid pokemon! This data was not recorded.")
@@ -82,7 +84,7 @@ def createteam():
             if form.pokemon3.data != "":
                 poke, exists = create_pokemon(form.pokemon3.data, form.poke3level.data, form.pokemonHeldItem3.data)
                 if exists:
-                    poketeam["poke" + str(poke_count)] = poke
+                    pokemon.append(poke)
                     poke_count += 1
                 else:
                     flash(form.pokemon3.data + " is not a valid pokemon! This data was not recorded.")
@@ -90,7 +92,7 @@ def createteam():
             if form.pokemon4.data != "":
                 poke, exists = create_pokemon(form.pokemon4.data, form.poke4level.data, form.pokemonHeldItem4.data)
                 if exists:
-                    poketeam["poke" + str(poke_count)] = poke
+                    pokemon.append(poke)
                     poke_count += 1
                 else:
                     flash(form.pokemon4.data + " is not a valid pokemon! This data was not recorded.")
@@ -98,7 +100,7 @@ def createteam():
             if form.pokemon5.data != "":
                 poke, exists = create_pokemon(form.pokemon5.data, form.poke5level.data, form.pokemonHeldItem5.data)
                 if exists:
-                    poketeam["poke" + str(poke_count)] = poke
+                    pokemon.append(poke)
                     poke_count += 1
                 else:
                     flash(form.pokemon5.data + " is not a valid pokemon! This data was not recorded.")
@@ -106,12 +108,12 @@ def createteam():
             if form.pokemon6.data != "":
                 poke, exists = create_pokemon(form.pokemon6.data, form.poke6level.data, form.pokemonHeldItem6.data)
                 if exists:
-                    poketeam["poke" + str(poke_count)] = poke
+                    pokemon.append(poke)
                     poke_count += 1
                 else:
                     flash(form.pokemon6.data + " is not a valid pokemon! This data was not recorded.")
             poketeam['count'] = poke_count
-
+            poketeam['pokemon'] = pokemon
             upload_team(poketeam)
             return redirect(url_for("home.index"))
         else:
@@ -215,7 +217,7 @@ def editteam(teamname, username):
 @login_required
 def deletepokemon(teamname, username, slot):
     if current_user.username == username:
-        if slot > 0 and slot < 7:
+        if 0 < slot < 7:
             results = query_team(username, teamname)
             if len(results) != 0:
                 results = results[0]

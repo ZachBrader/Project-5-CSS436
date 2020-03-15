@@ -22,7 +22,6 @@
 <div class="table-responsive">
     <table class="table">
         <thead>
-            <th scope="col">Position</th>
             <th scope="col">Picture</th>
             <th scope="col">Pokedex</th>
             <th scope="col">Pokemon</th>
@@ -31,56 +30,13 @@
             <th scope="col">Item</th>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                {% if team.poke1 %}
-                    {% set poke = team.poke1 %}
-                    {% include 'pokemon/_pokemon.html' %}
-                {% else %}
-                <td><b>No pokemon in this team!</b></td>
-                {% endif %}
-            </tr>
-            <tr>
-                {% if team.poke2 %}
-                    <th scope="row">2</th>
-                    {% set poke = team.poke2 %}
-                    {% include 'pokemon/_pokemon.html' %}
-                {% endif %}
-            </tr>
-            <tr>
-                {% if team.poke3 %}
-                    <th scope="row">3</th>
-                    {% set poke = team.poke3 %}
-                    {% include 'pokemon/_pokemon.html' %}
-                {% endif %}
-            </tr>
-            <tr>
-                {% if team.poke4 %}
-                    <th scope="row">4</th>
-                    {% set poke = team.poke4 %}
-                    {% include 'pokemon/_pokemon.html' %}
-                {% endif %}
-            </tr>
-            <tr>
-                {% if team.poke5 %}
-                    <th scope="row">5</th>
-                    {% set poke = team.poke5 %}
-                    {% include 'pokemon/_pokemon.html' %}
-                {% endif %}
-            </tr>
-            <tr>
-                {% if team.poke6 %}
-                    <th scope="row">6</th>
-                    {% set poke = team.poke6 %}
-                    {% include 'pokemon/_pokemon.html' %}
-                {% else %}
-                    {% set less_than_cap = True %}
-                {% endif %}
-            </tr>
+            {% for poke in team.pokemon %}
+                {% include 'pokemon/_pokemon.html' %}
+            {% endfor %}
         </tbody>
     </table>
 </div>
-{% if less_than_cap %}
+{% if team.count < 7 %}
 <a href="{{ url_for('poke.addnewpokemon', username=team.UserName, teamname=team.TeamName)}}"><button type="button" class="btn btn-primary">Add New Pokemon</button></a>
 {% endif %}
 <a href="{{ url_for('poke.editteam', username=team.UserName, teamname=team.TeamName)}}"><button type="button" class="btn btn-primary">Edit Team</button></a>
