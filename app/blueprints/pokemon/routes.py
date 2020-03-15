@@ -221,7 +221,7 @@ def deletepokemon(teamname, username, slot):
                 results = results[0]
                 poke_num = "poke" + str(slot)
                 if poke_num in results:
-                    ret =results.popitem(poke_num)
-                    flash("Removed " + ret + " from " + teamname)
+                    ret =results.pop(poke_num)
+                    flash("Removed " + str(ret) + " from " + teamname)
                     upload_team(results)
     return redirect(url_for('poke.teampage', username=username, teamname=teamname))
