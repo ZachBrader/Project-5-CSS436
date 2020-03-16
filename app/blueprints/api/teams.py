@@ -30,7 +30,7 @@ def create_user():
 
 
 @api.route('/users/<int:id>', methods=['GET'])
-@token_auth.login_required()
+@token_auth.login_required
 def get_user(id):
     return jsonify(User.query.get_or_404(id).to_dict())
 
