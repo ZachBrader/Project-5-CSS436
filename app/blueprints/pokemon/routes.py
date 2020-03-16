@@ -4,7 +4,7 @@ from datetime import datetime
 
 from app.blueprints.pokemon import poke
 from app.blueprints.pokemon.pokeapi import create_pokemon, upload_team, query_team, validate_teamname, delete_team
-from app.forms import PokemonTeamBuilder, PokemonTeamSearch, PokemonNew, EditTeam
+from app.forms import PokemonTeamBuilder, PokemonTeamSearch, PokemonNew, EditTeam, PokemonEdit
 
 
 @poke.route("/query", methods=["GET", "POST"])
@@ -235,7 +235,7 @@ def deletepokemon(teamname, username, slot):
 def editpokemon(teamname, username, slot):
     # Make sure we have a valid number
     if 0 <= slot < 6:
-        form = PokemonNew()
+        form = PokemonEdit()
         # Receive the json for this team
         results = query_team(username, teamname)[0]
         # Once user clicks submit
@@ -244,11 +244,11 @@ def editpokemon(teamname, username, slot):
             if current_user.username == username:
                 # Try to update
                 try:
-                    poke, exists = create_pokemon(form.pokemon.data, form.level.data, form.item.data)
+                    poke, exists = create_pokemon(results['pokemon'][slot]['name'], form.level.data, form.item.data)
                     if exists:
                         # Pokemon is valid, let's update
                         results['pokemon'][slot] = poke
-                        flash("Edited Pokemon " + str(slot) + " in " + teamname)
+                        flash("Edited Pokemon " + results['pokemon'][slot]['name'] + " in " + teamname)
                         results['count'] = len(results['pokemon'])
                         upload_team(results)
 
@@ -272,10 +272,9 @@ def editpokemon(teamname, username, slot):
             elif slot >= count >= 6:
                 flash('Unable to update that pokemon')
                 return redirect(url_for('poke.teampage', username=username, teamname=teamname))
-            form.pokemon.data = results['pokemon'][slot]['name']
             form.level.data = results['pokemon'][slot]['level']
             form.item.data = results['pokemon'][slot]['item']
-        return render_template('pokemon/addpokemon.html', form=form)
+        return render_template('pokemon/editpokemon.html', form=form, pokemon_name=results['pokemon'][slot]['name'])
 
     else:
         flash("You need to enter in a valid position for a pokemon on the team!")
