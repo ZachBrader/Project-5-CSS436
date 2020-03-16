@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from datetime import datetime
 
 from app.blueprints.pokemon import poke
-from app.blueprints.pokemon.pokeapi import create_pokemon, upload_team, query_team, validate_teamname, delete_team
+from app.blueprints.pokemon.pokeapi import create_pokemon, upload_team, query_team, validate_teamname, delete_team, GetPokemonMove, CreatePokemonMoveSelectList
 from app.forms import PokemonTeamBuilder, PokemonTeamSearch, PokemonNew, EditTeam, PokemonEdit
 
 
@@ -235,9 +235,23 @@ def deletepokemon(teamname, username, slot):
 def editpokemon(teamname, username, slot):
     # Make sure we have a valid number
     if 0 <= slot < 6:
-        form = PokemonEdit()
+        
+        
         # Receive the json for this team
         results = query_team(username, teamname)[0]
+        pokemonName = results['pokemon'][slot]['name']
+        
+        form = PokemonEdit()
+
+        # Send Pokemon Moves List to the form
+        moveList = GetPokemonMove(pokemonName)
+        newList = CreatePokemonMoveSelectList(moveList)
+
+        form.move1.choices = newList
+        form.move2.choices = newList
+        form.move3.choices = newList
+        form.move4.choices = newList
+        
         # Once user clicks submit
         if form.validate_on_submit():
             # This user is authorized to do this

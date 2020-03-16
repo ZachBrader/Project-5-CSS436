@@ -84,8 +84,15 @@ class PokemonNew(FlaskForm):
 
 
 class PokemonEdit(FlaskForm):
+    
     level = IntegerField("Pokemon Level", default=1, validators=[])
     item = SelectField('Pokemon Held Item', choices=mychoicesHeldItem)
+    
+    move1 = SelectField('Pokemon Move #1')
+    move2 = SelectField('Pokemon Move #2')
+    move3 = SelectField('Pokemon Move #3')
+    move4 = SelectField('Pokemon Move #4')
+    
     submit = SubmitField('Update')
 
 
