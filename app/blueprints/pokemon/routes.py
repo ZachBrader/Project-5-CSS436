@@ -260,7 +260,8 @@ def editpokemon(teamname, username, slot):
         if form.validate_on_submit():
             # Try to update
             try:
-                poke, exists = create_pokemon(results['pokemon'][slot]['name'], form.level.data, form.item.data)
+                moves = [form.move1.data, form.move2.data, form.move3.data, form.move4.data]
+                poke, exists = create_pokemon(results['pokemon'][slot]['name'], form.level.data, form.item.data, moves)
                 if exists:
                     # Pokemon is valid, let's update
                     results['pokemon'][slot] = poke

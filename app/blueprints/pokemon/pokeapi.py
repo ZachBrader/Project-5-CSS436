@@ -6,7 +6,7 @@ from config import TABLE
 from boto3.dynamodb.conditions import Key, Attr
 
 
-def create_pokemon(name, level, item=""):
+def create_pokemon(name, level, item="", Moves=["None" for x in range(4)]):
     """
     Formats pokemon details into a dictionary
 
@@ -21,10 +21,15 @@ def create_pokemon(name, level, item=""):
         poke['id'] = pokemon_details['id']
         poke['hidden_abilities'] = pokemon_details['hidden_abilities']
         poke['picture'] = FindByID(poke['id'])
+        poke['moves'] = Moves
         if level != "":
             poke['level'] = level
+        else:
+            poke['level'] = 1
         if item != "":
             poke['item'] = item
+        else:
+            poke['item'] = ""
         return poke, True
     else:
         return poke, False
@@ -37,14 +42,16 @@ def upload_team(poketeam):
     :param poketeam: A dictionary object with a teamname, and 0-6 pokemon
     :return:
     """
-    print(TABLE.put_item(Item=poketeam))
+    TABLE.put_item(Item=poketeam)
     return True
+
 
 # Get a list of pokemon move from given pokemon name
 def GetPokemonMove(pokemon_name):
     content = json.dumps(GetObjectByName(pokemon_name)[1])
     data = json.loads(content)
     return data['moves']
+
 
 # Create a given pokemon move list for wtform select
 def CreatePokemonMoveSelectList(moveList):
@@ -55,6 +62,7 @@ def CreatePokemonMoveSelectList(moveList):
         tup = (move.strip(), move.strip())
         pokemonMove_list.append(tup)
     return pokemonMove_list
+
 
 def query_team(username=None, teamname=None):
     """
@@ -78,6 +86,7 @@ def query_team(username=None, teamname=None):
         response = TABLE.scan()
         totalItems += response['Items']
     return totalItems
+
 
 def delete_team(username, teamname):
     try:

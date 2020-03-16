@@ -5,7 +5,9 @@
     <td>{{ poke.level }}</td>
     <td>{{ poke.hidden_abilities[0] }}</td>
     <td>{{ poke.item }}</td>
+    <td>{% for move in poke.moves %} <b>{{ loop.index }}</b> {{ move }} <hr> {% endfor %}</td>
     {% set count = loop.index - 1 %}
-    <td><a href="{{ url_for('poke.deletepokemon', username=team.UserName, teamname=team.TeamName, slot=count)}}"><button type="button" class="btn btn-warning">Remove</button></a></td>
-    <td><a href="{{ url_for('poke.editpokemon', username=team.UserName, teamname=team.TeamName, slot=count)}}"><button type="button" class="btn btn-secondary">Edit</button></a></td>
+    <td><a href="{{ url_for('poke.deletepokemon', username=team.UserName, teamname=team.TeamName, slot=count)}}"><button type="button" class="btn btn-warning">Remove</button></a>
+        <hr>
+    <a href="{{ url_for('poke.editpokemon', username=team.UserName, teamname=team.TeamName, slot=count)}}"><button type="button" class="btn btn-secondary">Edit</button></a></td>
 </tr>
