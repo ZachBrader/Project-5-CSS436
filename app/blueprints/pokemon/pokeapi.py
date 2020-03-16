@@ -40,6 +40,21 @@ def upload_team(poketeam):
     print(TABLE.put_item(Item=poketeam))
     return True
 
+# Get a list of pokemon move from given pokemon name
+def GetPokemonMove(pokemon_name):
+    content = json.dumps(GetObjectByName(pokemon_name)[1])
+    data = json.loads(content)
+    return data['moves']
+
+# Create a given pokemon move list for wtform select
+def CreatePokemonMoveSelectList(moveList):
+    pokemonMove_list = []
+    temp = ('None', 'None')
+    pokemonMove_list.append(temp)
+    for move in moveList:
+        tup = (move.strip(), move.strip())
+        pokemonMove_list.append(tup)
+    return pokemonMove_list
 
 def query_team(username=None, teamname=None):
     """
