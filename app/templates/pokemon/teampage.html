@@ -8,18 +8,17 @@
     }
 </style>
 {% for team in results %}
-<h3>
+<h3 class = "team">
     Created By:
     <a href="{{ url_for('home.user', username=team.UserName) }}">
         {{ team.UserName }}
     </a>
+	<br> </br>
+	Team Name: {{ team.TeamName }}
 </h3>
-<h4>
-    Team Name: {{ team.TeamName }}
-</h4>
 <hr>
 
-<div class="table-responsive">
+<div class="team">
     <table class="table">
         <thead>
             <th scope="col">Picture</th>

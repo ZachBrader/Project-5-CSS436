@@ -37,6 +37,24 @@
 {% endblock %}
 
 {% block content %}
+<style>
+body {
+  background-image: url('https://1622775.s3-us-west-2.amazonaws.com/Image/0f2e90c1486018aa26c15a27a11fa5d7.jpg');
+
+}
+.team {
+  border:1px solid #00B0F0;
+  background:rgba(238,255,255,0.75);
+  border-radius:12px;
+  padding:8px;
+}
+.boldTitle{
+	font-weight: bold;
+	color:black;
+	background: rgba(238,255,255,0.3);
+	border-radius:3px;
+}
+</style>
     <div class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}

@@ -1,12 +1,37 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>Index Page</h1>
+<style>
+body {
+  background-image: url('https://1622775.s3-us-west-2.amazonaws.com/Image/0f2e90c1486018aa26c15a27a11fa5d7.jpg');
+
+}
+.team {
+  border:1px solid #00B0F0;
+  background:rgba(238,255,255,0.75);
+  border-radius:12px;
+  padding:8px;
+}
+</style>
+    <h1 style="text-align:center;
+		background: rgba(238,255,255,0.75);
+		font-weight: bold;
+		color:black;
+		border:1px solid #CCC;
+		margin: auto;
+		width:600px" >Pokemon Team Builder</h1>
     <hr>
-    <h2>Newest Teams:</h2>
+    <h2 style="font-weight: bold;
+		color:black;
+		background: rgba(238,255,255,0.3);
+		border-radius:3px;
+		width:250px;
+		padding:3px;" >Newest Teams:</h2>
     <div class="container">
         {% for team in pokeList %}
+		<div class="team">
             {% include '_team.html' %}
+		</div>
         {% endfor %}
     </div>
 

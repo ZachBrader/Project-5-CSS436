@@ -3,8 +3,8 @@
 {% block app_content %}
     <h1>User: {{ user.username }}</h1>
     <hr>
-    <h2>Newest Teams:</h2>
-    <div class="container">
+    <h2 = class = "boldTitle">Newest Teams:</h2>
+    <div class="team">
         {% for team in pokeList %}
             {% include '_team.html' %}
         {% endfor %}

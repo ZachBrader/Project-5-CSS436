@@ -4,14 +4,16 @@
 {% block app_content %}
     <h1>Pokemon Team Builder</h1>
     <div class="row">
-        <div class="col-md-4">
+        <div class="team">
             {{ wtf.quick_form(form) }}
         </div>
     </div>
 
     <p>
         {% for team in results %}
+		<div class="team">
             {% include '_team.html' %}
+		</div>
         {% endfor %}
     </p>
 {% endblock %}
