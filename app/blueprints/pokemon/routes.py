@@ -124,8 +124,11 @@ def createteam():
 @poke.route("/user/<username>/editteam/<teamname>", methods=["GET", "POST"])
 @login_required
 def editteam(teamname, username):
+    if current_user.username != username:
+        flash("You do not have permissions to edit this team")
+        return redirect(url_for('poke.teampage', username=username, teamname=teamname))
     form = EditTeam()
-    results = query_team(current_user.username, teamname)
+    results = query_team(username, teamname)
     if len(results) == 0 or current_user.username != username:
         flash("Unable to edit team " + teamname)
         redirect(url_for('home.user', username=username))
@@ -234,9 +237,10 @@ def deletepokemon(teamname, username, slot):
 @login_required
 def editpokemon(teamname, username, slot):
     # Make sure we have a valid number
+    if username != current_user.username:
+        flash("You do not have permissions to edit this team")
+        return redirect(url_for('poke.teampage', username=username, teamname=teamname))
     if 0 <= slot < 6:
-        
-        
         # Receive the json for this team
         results = query_team(username, teamname)[0]
         pokemonName = results['pokemon'][slot]['name']
@@ -254,31 +258,27 @@ def editpokemon(teamname, username, slot):
         
         # Once user clicks submit
         if form.validate_on_submit():
-            # This user is authorized to do this
-            if current_user.username == username:
-                # Try to update
-                try:
-                    poke, exists = create_pokemon(results['pokemon'][slot]['name'], form.level.data, form.item.data)
-                    if exists:
-                        # Pokemon is valid, let's update
-                        results['pokemon'][slot] = poke
-                        flash("Edited Pokemon " + results['pokemon'][slot]['name'] + " in " + teamname)
-                        results['count'] = len(results['pokemon'])
-                        upload_team(results)
+            # Try to update
+            try:
+                poke, exists = create_pokemon(results['pokemon'][slot]['name'], form.level.data, form.item.data)
+                if exists:
+                    # Pokemon is valid, let's update
+                    results['pokemon'][slot] = poke
+                    flash("Edited Pokemon " + results['pokemon'][slot]['name'] + " in " + teamname)
+                    results['count'] = len(results['pokemon'])
+                    upload_team(results)
 
-                        # Show user the new team combination
-                        return redirect(url_for('poke.teampage', username=username, teamname=teamname))
-                    else:
-                        flash("Unable to edit pokemon")
-                        return redirect(url_for('poke.editpokemon', username=username, teamname=teamname, slot=slot))
-                except Exception as E:
-                    flash("Unable to find pokemon at slot " + str(slot))
-            else:
-                flash("You do not have permissions to edit this team")
-                return redirect(url_for('poke.teampage', username=username, teamname=teamname))
+                    # Show user the new team combination
+                    return redirect(url_for('poke.teampage', username=username, teamname=teamname))
+                else:
+                    flash("Unable to edit pokemon")
+                    return redirect(url_for('poke.editpokemon', username=username, teamname=teamname, slot=slot))
+            except Exception as E:
+                flash("Unable to find pokemon at slot " + str(slot))
         # Tell user current information about pokemon
         elif request.method == 'GET':
             # Total number of pokemon on this team
+            print(results)
             count = results['count']
             print("DETAILS", slot, count)
             if slot >= count and count <= 5:
