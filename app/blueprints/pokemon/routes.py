@@ -230,6 +230,58 @@ def deletepokemon(teamname, username, slot):
     return redirect(url_for('poke.teampage', username=username, teamname=teamname))
 
 
+@poke.route("/user/<username>/team/<teamname>/editpokemon/<int:slot>", methods=["GET", "POST"])
+@login_required
+def editpokemon(teamname, username, slot):
+    # Make sure we have a valid number
+    if 0 <= slot < 6:
+        form = PokemonNew()
+        # Receive the json for this team
+        results = query_team(username, teamname)[0]
+        # Once user clicks submit
+        if form.validate_on_submit():
+            # This user is authorized to do this
+            if current_user.username == username:
+                # Try to update
+                try:
+                    poke, exists = create_pokemon(form.pokemon.data, form.level.data, form.item.data)
+                    if exists:
+                        # Pokemon is valid, let's update
+                        results['pokemon'][slot] = poke
+                        flash("Edited Pokemon " + str(slot) + " in " + teamname)
+                        results['count'] = len(results['pokemon'])
+                        upload_team(results)
+
+                        # Show user the new team combination
+                        return redirect(url_for('poke.teampage', username=username, teamname=teamname))
+                    else:
+                        flash("Unable to edit pokemon")
+                        return redirect(url_for('poke.editpokemon', username=username, teamname=teamname, slot=slot))
+                except Exception as E:
+                    flash("Unable to find pokemon at slot " + str(slot))
+            else:
+                flash("You do not have permissions to edit this team")
+                return redirect(url_for('poke.teampage', username=username, teamname=teamname))
+        # Tell user current information about pokemon
+        elif request.method == 'GET':
+            # Total number of pokemon on this team
+            count = results['count']
+            print("DETAILS", slot, count)
+            if slot >= count and count <= 5:
+                return redirect(url_for('poke.addnewpokemon', username=username, teamname=teamname))
+            elif slot >= count >= 6:
+                flash('Unable to update that pokemon')
+                return redirect(url_for('poke.teampage', username=username, teamname=teamname))
+            form.pokemon.data = results['pokemon'][slot]['name']
+            form.level.data = results['pokemon'][slot]['level']
+            form.item.data = results['pokemon'][slot]['item']
+        return render_template('pokemon/addpokemon.html', form=form)
+
+    else:
+        flash("You need to enter in a valid position for a pokemon on the team!")
+        return redirect(url_for('poke.teampage', username=username, teamname=teamname))
+
+
 @poke.route("/user/<username>/team/<teamname>/deleteteam", methods=["GET", "POST"])
 @login_required
 def deleteteam(teamname, username):

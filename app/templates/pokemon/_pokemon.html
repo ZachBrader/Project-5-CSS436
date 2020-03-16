@@ -7,4 +7,5 @@
     <td>{{ poke.item }}</td>
     {% set count = loop.index - 1 %}
     <td><a href="{{ url_for('poke.deletepokemon', username=team.UserName, teamname=team.TeamName, slot=count)}}"><button type="button" class="btn btn-warning">Remove</button></a></td>
+    <td><a href="{{ url_for('poke.editpokemon', username=team.UserName, teamname=team.TeamName, slot=count)}}"><button type="button" class="btn btn-secondary">Edit</button></a></td>
 </tr>

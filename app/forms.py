@@ -80,7 +80,7 @@ class PokemonNew(FlaskForm):
     pokemon = SelectField('Pokemon', choices=mychoices, validators=[DataRequired()])
     level = IntegerField("Pokemon Level", default=1, validators=[])
     item = SelectField('Pokemon Held Item', choices=mychoicesHeldItem)
-    submit = SubmitField('Add To Team')
+    submit = SubmitField('Update')
 
 
 class EditTeam(FlaskForm):
