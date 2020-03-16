@@ -1,10 +1,12 @@
 from flask import jsonify, request, url_for
+import json
+from dynamodb_json import json_util
 from app.blueprints.api import api
 from app.models import User
 from app import db
 from app.blueprints.api.errors import bad_request
-
-
+from app.blueprints.api.auth import token_auth
+from app.blueprints.pokemon.pokeapi import query_team
 
 @api.route('/users', methods=['POST'])
 def create_user():
@@ -31,16 +33,32 @@ def get_user(id):
 
 
 @api.route('/users', methods=['GET'])
+@token_auth.login_required
 def get_users():
     return {}
 
 
 @api.route('/teams', methods=['GET'])
+@token_auth.login_required
 def get_teams():
-    return {}
+    teams = json_util.loads(query_team())
+    num_teams = len(teams)
+    return jsonify({'_meta': {'total_teams': num_teams}, "teams": teams})
 
 
-@api.route('/teams/<int:id>', methods=['GET'])
-def get_team(id):
-    return {}
+@api.route('/teams/<teamname>', methods=['GET'])
+@token_auth.login_required
+def get_team_by_teamnames(teamname):
+    teams = json_util.loads(query_team(teamname=teamname))
+    num_teams = len(teams)
+    return jsonify({'_meta': {'total_teams': num_teams}, "teams": teams})
+
+
+@api.route('/user/<username>/teams/<teamname>', methods=['GET'])
+@token_auth.login_required
+def get_team(username, teamname):
+    teams = json_util.loads(query_team(username=username, teamname=teamname))
+    num_teams = len(teams)
+    return jsonify({'_meta': {'total_teams': num_teams}, "teams": teams})
+
 
